@@ -1,13 +1,11 @@
-# Specification: [Your App Idea Name]
+# Specification: Cooking Recipe Keeper
 
-App description: [Write a one or two sentences describing what your app does and who it’s for.]
+App description: My app is for chef's and cooks who want to keep track of their recipes, ingredients and instructions of how to cook said recipes
 
 ## Style and Theme
 
-[Describe the look and feel of your app.] 
+The app should calm and professional but have a hint of fun and bold as to not look too boring but keep a easy to use and direct structure to not overwhelm the user 
 
-Overall mood:
-Examples: fun and playful, calm and professional, bold and energetic, etc.
 
 Use the *style-guide.html* for details on styling -- fonts, colors, and layout.
 
@@ -15,7 +13,7 @@ Use the *style-guide.html* for details on styling -- fonts, colors, and layout.
 
 ### Story 1 (most important)
 
-[Write 1-2 sentences. Who is using the app, what do they want to do, and what do they see when it works? Write it like you are describing it to a friend.]
+Bobby's mon wants to keep track of all her recipes and wants to keep a list of ingredients and an optional function of instructions of how to use the ingredients.
 
 ---
 
