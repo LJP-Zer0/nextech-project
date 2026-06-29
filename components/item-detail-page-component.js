@@ -48,8 +48,14 @@ export default {
           </div>
 
           <p class="lead mb-3">{{ selectedItem.description || 'No description available.' }}</p>
-          <p class="mb-0"><strong>Location:</strong> {{ selectedItem.location || 'N/A' }}</p>
-          <p class="text-muted mt-2 mb-0"><strong>Item ID:</strong> {{ selectedItem.id }}</p>
+          <p class="mb-0"><strong>Effort:</strong> {{ selectedItem.location || 'N/A' }}</p>
+
+          <div v-if="selectedItem.instructions" class="mt-4">
+            <h2 class="h5">Instructions</h2>
+            <p class="mb-0">{{ selectedItem.instructions }}</p>
+          </div>
+
+          <p class="text-muted mt-4 mb-0"><strong>List ID:</strong> {{ selectedItem.id }}</p>
         </div>
       </article>
     </section>

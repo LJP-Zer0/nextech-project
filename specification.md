@@ -1,6 +1,6 @@
-# Specification: Cooking Recipe Keeper
+# Specification: Lists for any Reason for Any person
 
-App description: My app is for chef's and cooks who want to keep track of their recipes, ingredients and instructions of how to cook said recipes
+App description: My app is for people who need lists for any function, from cookin recipes to a guest list and between
 
 ## Style and Theme
 

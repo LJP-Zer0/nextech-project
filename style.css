@@ -1,5 +1,40 @@
+/* Custom color theme for List Keeper app */
+:root {
+  --bs-primary: #9f33c0;
+  --bs-primary-rgb: 159, 51, 192;
+  --bs-secondary: #adcbb7;
+  --bs-secondary-rgb: 173, 203, 183;
+}
+
+/* Customize button colors */
+.btn-primary {
+  background-color: #cd58c5;
+  border: 2px solid #dddddd;
+  border-radius: 40px;
+  padding: 11px 14px;
+  color: #ffffff;
+  transition: transform 0.2s ease;
+}
+
+.btn-primary:hover {
+  background-color: #804c7c;
+  border-color: #dddddd;
+  transform: scale(1.1);
+}
+
+.btn-outline-primary {
+  color: #9f33c0;
+  border-color: #9f33c0;
+}
+
+.btn-outline-primary:hover {
+  background-color: #9f33c0;
+  border-color: #9f33c0;
+}
+
 .collection-card-image {
-  height: 180px;
+  min-height: 180px;
+  object-fit: cover;
 }
 
 .collection-description {
@@ -12,4 +47,37 @@
 
 .item-detail-image {
   max-height: 320px;
+  object-fit: cover;
+}
+
+.card {
+  border-radius: 18px;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+}
+
+.card-body {
+  padding: 1.25rem;
+}
+
+.navbar {
+  background-color: #ffffff;
+}
+
+/* Form styling */
+input,
+textarea {
+  font-family: Arial, sans-serif;
+  padding: 8px;
+  border: 1px solid #cccccc;
+  margin-bottom: 12px;
+}
+
+/* Body background */
+body {
+  background-color: #eef0f5 !important;
+}
+
+main {
+  padding-bottom: 24px;
 }
