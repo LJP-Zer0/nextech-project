@@ -36,7 +36,7 @@ const app = Vue.createApp({
       error: '',
     });
 
-    fetch('items-template.csv')
+    fetch('items.csv')
       .then((response) => {
         if (!response.ok) {
           throw new Error('Could not load CSV data file.');
@@ -54,10 +54,10 @@ const app = Vue.createApp({
             } else {
               itemsStore.items = data.map((row) => ({
                 id: String(row.id || '').trim(),
-                name: String(row.name || '').trim(),
-                description: String(row.description || '').trim(),
-                category: String(row.category || '').trim(),
-                imageUrl: String(row.image_url || '').trim(),
+                name: String(row.name || row.task || row.title || '').trim(),
+                description: String(row.description || row.notes || '').trim(),
+                category: String(row.category || row.type || '').trim(),
+                imageUrl: String(row.image_url || row.imageUrl || row.image || '').trim(),
                 location: String(row.location || '').trim(),
                 instructions: String(row.instructions || '').trim(),
               }));

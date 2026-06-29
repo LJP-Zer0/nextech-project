@@ -29,7 +29,7 @@ Write clear statements about what the app must do.
 	 - Item detail (`#/items/:id`)
 	 - About (`#/about`)
 2. The navigation bar must let people move to Home, Items, and About.
-3. The app must load data from `items-template.csv` (a simple text table file).
+3. The app must load data from `items.csv` (a simple text table file).
 4. The collection page must show one card per row in the data file.
 5. Each card must include name, short description, and image (if available).
 6. Each card must include a way to open that item's detail page.
