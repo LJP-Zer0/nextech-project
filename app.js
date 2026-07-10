@@ -4,6 +4,26 @@ import NavbarComponent from './components/navbar-component.js';
 import CollectionPageComponent from './components/collection-page-component.js';
 import ItemDetailPageComponent from './components/item-detail-page-component.js';
 
+const STORAGE_KEY = 'personal-lists';
+
+const loadSavedLists = () => {
+  try {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (!saved) {
+      return [];
+    }
+
+    const parsed = JSON.parse(saved);
+    return Array.isArray(parsed) ? parsed : [];
+  } catch (error) {
+    return [];
+  }
+};
+
+const persistCustomLists = (customLists) => {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(customLists));
+};
+
 const routes = [
   {
     path: '/',
@@ -32,8 +52,67 @@ const app = Vue.createApp({
   setup() {
     const itemsStore = Vue.reactive({
       items: [],
+      baseItems: [],
       isLoading: true,
       error: '',
+      feedbackMessage: '',
+      addList(name) {
+        const trimmedName = String(name || '').trim();
+
+        if (!trimmedName) {
+          itemsStore.feedbackMessage = 'Please enter a list name.';
+          return false;
+        }
+
+        const newItem = {
+          id: `custom-${Date.now()}`,
+          name: trimmedName,
+          description: 'A list you created.',
+          category: 'Custom',
+          imageUrl: '',
+          location: 'Personal',
+          instructions: '',
+          isCustom: true,
+        };
+
+        const customLists = itemsStore.items.filter((item) => item.isCustom);
+        itemsStore.items = [...customLists, newItem];
+        persistCustomLists(itemsStore.items.filter((item) => item.isCustom));
+        itemsStore.feedbackMessage = `Added "${trimmedName}" to your lists.`;
+        return true;
+      },
+      deleteList(id) {
+        const removedItem = itemsStore.items.find((item) => item.id === id);
+        const nextItems = itemsStore.items.filter((item) => item.id !== id);
+        itemsStore.items = nextItems;
+        persistCustomLists(itemsStore.items.filter((item) => item.isCustom));
+        itemsStore.feedbackMessage = removedItem?.isCustom ? 'Your list was removed.' : 'List removed from your view.';
+      },
+      editList(id, updates) {
+        const target = itemsStore.items.find((item) => item.id === id);
+
+        if (!target || !target.isCustom) {
+          return false;
+        }
+
+        const nextItems = itemsStore.items.map((item) => {
+          if (item.id !== id) {
+            return item;
+          }
+
+          return {
+            ...item,
+            name: String(updates.name || item.name || '').trim(),
+            description: String(updates.description || item.description || '').trim(),
+            imageUrl: String(updates.imageUrl || item.imageUrl || '').trim(),
+          };
+        });
+
+        itemsStore.items = nextItems;
+        persistCustomLists(itemsStore.items.filter((item) => item.isCustom));
+        itemsStore.feedbackMessage = 'Your list was updated.';
+        return true;
+      },
     });
 
     fetch('items.csv')
@@ -51,8 +130,9 @@ const app = Vue.createApp({
             if (errors.length > 0) {
               itemsStore.error = 'There was a problem reading the CSV data.';
               itemsStore.items = [];
+              itemsStore.baseItems = [];
             } else {
-              itemsStore.items = data.map((row) => ({
+              const parsedItems = data.map((row) => ({
                 id: String(row.id || '').trim(),
                 name: String(row.name || row.task || row.title || '').trim(),
                 description: String(row.description || row.notes || '').trim(),
@@ -61,6 +141,10 @@ const app = Vue.createApp({
                 location: String(row.location || '').trim(),
                 instructions: String(row.instructions || '').trim(),
               }));
+
+              const savedLists = loadSavedLists();
+              itemsStore.baseItems = parsedItems;
+              itemsStore.items = savedLists;
               itemsStore.error = '';
             }
             itemsStore.isLoading = false;
@@ -68,6 +152,7 @@ const app = Vue.createApp({
           error: () => {
             itemsStore.error = 'There was a problem parsing CSV data.';
             itemsStore.items = [];
+            itemsStore.baseItems = [];
             itemsStore.isLoading = false;
           },
         });
@@ -75,6 +160,7 @@ const app = Vue.createApp({
       .catch(() => {
         itemsStore.error = 'There was a problem loading data.';
         itemsStore.items = [];
+        itemsStore.baseItems = [];
         itemsStore.isLoading = false;
       });
 
