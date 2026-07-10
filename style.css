@@ -6,7 +6,24 @@
   --bs-secondary-rgb: 173, 203, 183;
 }
 
-/* Customize button colors */
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  line-height: 1.5;
+  background-image: linear-gradient(rgba(255, 255, 255, 0.78), rgba(255, 255, 255, 0.78)), url('NB Background.png');
+  background-position: right top;
+  background-repeat: repeat;
+  background-size: auto;
+}
+
+main {
+  padding-bottom: 24px;
+}
+
+.container {
+  max-width: 760px;
+}
+
 .btn-primary {
   background-color: #cd58c5;
   border: 2px solid #dddddd;
@@ -54,8 +71,10 @@
 }
 
 .card {
+  border: 1px solid #dddddd;
   border-radius: 18px;
-  border: 1px solid rgba(0, 0, 0, 0.05);
+  padding: 12px;
+  background-color: #fafafa;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
 }
 
@@ -67,20 +86,17 @@
   background-color: #ffffff;
 }
 
-/* Form styling */
 input,
 textarea {
-  font-family: Arial, sans-serif;
+  width: 100%;
   padding: 8px;
   border: 1px solid #cccccc;
+  font-family: Arial, sans-serif;
   margin-bottom: 12px;
 }
 
-/* Body background */
-body {
-  background-color: #eef0f5 !important;
-}
-
-main {
-  padding-bottom: 24px;
+h1,
+h2,
+h3 {
+  color: #333333;
 }
