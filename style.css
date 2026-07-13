@@ -98,3 +98,36 @@ h2,
 h3 {
   color: #333333;
 }
+
+.about-layout {
+  display: flex;
+  align-items: flex-start;
+  gap: 24px;
+}
+
+.about-text {
+  flex: 1;
+}
+
+.about-image {
+  width: 200px;
+  max-width: 200px;
+  height: auto;
+  flex-shrink: 0;
+}
+
+@media (max-width: 700px) {
+  .about-layout {
+    flex-direction: column;
+  }
+
+  .about-image {
+    width: 100%;
+    max-width: 220px;
+  }
+}
+
+.me{
+  margin-top: 20%;
+  justify-content: right
+}

@@ -8,11 +8,15 @@ export default {
     const editName = Vue.ref('');
     const editDescription = Vue.ref('');
     const editImageUrl = Vue.ref('');
+    const newListDescription = Vue.ref('');
+    const newListImageUrl = Vue.ref('');
 
     const createList = () => {
-      const added = itemsStore.addList(newListName.value);
+      const added = itemsStore.addList(newListName.value, newListDescription.value, newListImageUrl.value);
       if (added) {
         newListName.value = '';
+        newListDescription.value = '';
+        newListImageUrl.value = '';
         showCreateMenu.value = false;
       }
     };
@@ -21,6 +25,8 @@ export default {
       showCreateMenu.value = !showCreateMenu.value;
       if (!showCreateMenu.value) {
         newListName.value = '';
+        newListDescription.value = '';
+        newListImageUrl.value = '';
       }
     };
 
@@ -62,6 +68,8 @@ export default {
       editName,
       editDescription,
       editImageUrl,
+      newListDescription,
+      newListImageUrl,
       createList,
       toggleCreateMenu,
       deleteList,
@@ -79,7 +87,11 @@ export default {
 
       <p class="text-muted">Create a new list in one step, or open an existing one to see details.</p>
 
-      <div v-if="itemsStore.feedbackMessage" class="alert alert-info py-2 mb-3" role="status">
+      <div
+        v-if="itemsStore.feedbackMessage"
+        class="alert alert-info py-2 mb-3"
+        role="status"
+        :style="{ opacity: itemsStore.feedbackVisible ? 1 : 0, transition: 'opacity 0.4s ease' }">
         {{ itemsStore.feedbackMessage }}
       </div>
 
@@ -90,8 +102,8 @@ export default {
           </button>
 
           <div v-if="showCreateMenu" class="mt-3 border-top pt-3">
-            <div class="d-flex flex-column flex-md-row gap-2 align-items-md-end">
-              <div class="flex-grow-1">
+            <div class="d-flex flex-column gap-2">
+              <div>
                 <label for="new-list-name" class="form-label small text-muted mb-1">New list name</label>
                 <input
                   id="new-list-name"
@@ -101,9 +113,30 @@ export default {
                   placeholder="e.g. Weekend meal prep"
                   @keydown.enter.prevent="createList" />
               </div>
-              <button type="button" class="btn btn-outline-primary" @click="createList">Add list</button>
+
+              <div>
+                <label for="new-list-description" class="form-label small text-muted mb-1">Description</label>
+                <textarea
+                  id="new-list-description"
+                  v-model="newListDescription"
+                  class="form-control"
+                  rows="2"
+                  placeholder="Add a short description for this list"></textarea>
+              </div>
+
+              <div>
+                <label for="new-list-image" class="form-label small text-muted mb-1">Photo URL</label>
+                <input
+                  id="new-list-image"
+                  v-model="newListImageUrl"
+                  type="url"
+                  class="form-control"
+                  placeholder="https://example.com/image.jpg" />
+              </div>
+
+              <button type="button" class="btn btn-outline-primary align-self-start" @click="createList">Add list</button>
             </div>
-            <p class="small text-muted mt-2 mb-0">Quick and simple. Add a name and keep going.</p>
+            <p class="small text-muted mt-2 mb-0">Give your list a title, a short description, and an optional photo.</p>
           </div>
         </div>
       </div>

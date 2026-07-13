@@ -56,20 +56,49 @@ const app = Vue.createApp({
       isLoading: true,
       error: '',
       feedbackMessage: '',
-      addList(name) {
+      feedbackVisible: true,
+      feedbackTimeoutId: null,
+      setFeedbackMessage(message) {
+        if (itemsStore.feedbackTimeoutId) {
+          window.clearTimeout(itemsStore.feedbackTimeoutId);
+        }
+
+        if (!message) {
+          itemsStore.feedbackMessage = '';
+          itemsStore.feedbackVisible = true;
+          itemsStore.feedbackTimeoutId = null;
+          return;
+        }
+
+        itemsStore.feedbackMessage = message;
+        itemsStore.feedbackVisible = true;
+
+        itemsStore.feedbackTimeoutId = window.setTimeout(() => {
+          itemsStore.feedbackVisible = false;
+
+          itemsStore.feedbackTimeoutId = window.setTimeout(() => {
+            itemsStore.feedbackMessage = '';
+            itemsStore.feedbackVisible = true;
+            itemsStore.feedbackTimeoutId = null;
+          }, 400);
+        }, 5000);
+      },
+      addList(name, description = '', imageUrl = '') {
         const trimmedName = String(name || '').trim();
+        const trimmedDescription = String(description || '').trim();
+        const trimmedImageUrl = String(imageUrl || '').trim();
 
         if (!trimmedName) {
-          itemsStore.feedbackMessage = 'Please enter a list name.';
+          itemsStore.setFeedbackMessage('Please enter a list name.');
           return false;
         }
 
         const newItem = {
           id: `custom-${Date.now()}`,
           name: trimmedName,
-          description: 'A list you created.',
+          description: trimmedDescription || 'A list you created.',
           category: 'Custom',
-          imageUrl: '',
+          imageUrl: trimmedImageUrl,
           location: 'Personal',
           instructions: '',
           isCustom: true,
@@ -78,7 +107,7 @@ const app = Vue.createApp({
         const customLists = itemsStore.items.filter((item) => item.isCustom);
         itemsStore.items = [...customLists, newItem];
         persistCustomLists(itemsStore.items.filter((item) => item.isCustom));
-        itemsStore.feedbackMessage = `Added "${trimmedName}" to your lists.`;
+        itemsStore.setFeedbackMessage(`Added "${trimmedName}" to your lists.`);
         return true;
       },
       deleteList(id) {
@@ -86,7 +115,7 @@ const app = Vue.createApp({
         const nextItems = itemsStore.items.filter((item) => item.id !== id);
         itemsStore.items = nextItems;
         persistCustomLists(itemsStore.items.filter((item) => item.isCustom));
-        itemsStore.feedbackMessage = removedItem?.isCustom ? 'Your list was removed.' : 'List removed from your view.';
+        itemsStore.setFeedbackMessage(removedItem?.isCustom ? 'Your list was removed.' : 'List removed from your view.');
       },
       editList(id, updates) {
         const target = itemsStore.items.find((item) => item.id === id);
@@ -110,7 +139,7 @@ const app = Vue.createApp({
 
         itemsStore.items = nextItems;
         persistCustomLists(itemsStore.items.filter((item) => item.isCustom));
-        itemsStore.feedbackMessage = 'Your list was updated.';
+        itemsStore.setFeedbackMessage('Your list was updated.');
         return true;
       },
     });
