@@ -10,7 +10,7 @@ body {
   margin: 0;
   font-family: Arial, sans-serif;
   line-height: 1.5;
-  background: linear-gradient(180deg, #ffffff 0%, #f8f2ff 55%, #e6d4f2 100%);
+  background: linear-gradient(180deg, #ffffff 0%, #f7ebff 55%, #e9bdf4 100%);
   background-attachment: fixed;
 }
 
@@ -129,5 +129,5 @@ h3 {
 
 .me{
   margin-top: 20%;
-  justify-content: right
+  justify-content: left
 }
